@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PE Triage · Malware detector</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 21V11h7a3.5 3.5 0 0 1 0 7H9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 22l3-3" stroke="currentColor" stroke-width="2"/></svg>
+      <div>
+        <h1>PE Triage</h1>
+        <p>Static analysis of Windows executables with five trained models</p>
+      </div>
+    </div>
+    <div class="status" id="status" role="status" aria-live="polite">Connecting to backend…</div>
+  </header>
+
+  <div class="banner hidden" id="mappingBanner" role="note"></div>
+
+  <main class="layout">
+    <aside class="rail">
+      <section class="panel" aria-labelledby="uploadTitle">
+        <h2 id="uploadTitle">Scan a file</h2>
+        <div class="drop" id="drop" tabindex="0" role="button" aria-describedby="dropHelp">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7 9m5-5l5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <strong>Drop a .exe or .dll here</strong>
+          <span>or press to choose a file</span>
+          <input type="file" id="fileInput" hidden>
+        </div>
+        <p class="hint" id="dropHelp">The file is read in memory and its headers are parsed. It is never saved or run. Max <span id="maxMb">50</span> MB.</p>
+        <div class="busy hidden" id="busy"><span class="spinner" aria-hidden="true"></span><span id="busyText">Analysing…</span></div>
+        <div class="alert hidden" id="alert" role="alert"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="sampleTitle">
+        <h2 id="sampleTitle">Bundled test files</h2>
+        <p class="hint">Inert, header-only PE stubs from <code>test_files/</code>. Results come from the real models.</p>
+        <div class="samples" id="samples"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="recentTitle">
+        <h2 id="recentTitle">This session</h2>
+        <ol class="recent" id="recent"><li class="empty">No scans yet.</li></ol>
+      </section>
+    </aside>
+
+    <section class="stage" id="stage" aria-live="polite">
+      <div class="placeholder" id="placeholder">
+        <h2>No file scanned yet</h2>
+        <p>Upload a Windows executable, or run one of the bundled test files. You will see each model's score against its decision line, the header fields that were extracted, and how the models performed on your held-out test set.</p>
+      </div>
+
+      <div id="result" class="hidden">
+        <section class="verdict" id="verdict">
+          <div class="verdict-main">
+            <p class="verdict-kicker">Overall verdict</p>
+            <p class="verdict-word" id="vWord"></p>
+            <p class="verdict-sub" id="vSub"></p>
+          </div>
+          <dl class="ident">
+            <div><dt>File</dt><dd id="fName"></dd></div>
+            <div><dt>Size</dt><dd id="fSize"></dd></div>
+            <div><dt>SHA-256</dt><dd class="mono wrap" id="fHash"></dd></div>
+            <div><dt>Analysis time</dt><dd id="fTime"></dd></div>
+          </dl>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Individual model results</h2>
+            <p class="hint">Each bar is the model's probability that the file is malicious. The vertical line is the point where it flips to Malicious.</p>
+          </div>
+          <div class="votes" id="votes"></div>
+          <p class="rule" id="rule"></p>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Header fields the models read</h2>
+            <p class="hint">These seven values are the model inputs. The rest were extracted but are not used by the models.</p>
+          </div>
+          <div class="scroll"><table class="grid" id="featTable"><thead><tr><th scope="col">Field</th><th scope="col">Value</th><th scope="col">Hex</th></tr></thead><tbody></tbody></table></div>
+          <details class="more"><summary>All extracted fields</summary>
+            <div class="scroll"><table class="grid" id="allTable"><thead><tr><th scope="col">Field</th><th scope="col">Value</th></tr></thead><tbody></tbody></table></div>
+          </details>
+        </section>
+      </div>
+
+      <section class="panel" id="metricsPanel">
+        <div class="panel-head">
+          <h2>Training-run performance</h2>
+          <p class="hint">Measured on the held-out 20% split in your training script (from <code>model_comparison.csv</code>). It describes the dataset, not this file.</p>
+        </div>
+        <div class="scroll"><table class="grid" id="metricsTable"><thead><tr><th scope="col">Model</th><th scope="col">Accuracy</th><th scope="col">Precision</th><th scope="col">Recall</th><th scope="col">F1</th><th scope="col">ROC-AUC</th></tr></thead><tbody></tbody></table></div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="foot">Files are analysed statically and discarded after the request. A model verdict is a signal for triage, not a replacement for a full antivirus scan.</footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>

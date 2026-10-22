@@ -1,0 +1,16 @@
+fastapi==0.159.1
+uvicorn[standard]>=0.30
+python-multipart>=0.0.9
+pefile==2024.8.26
+numpy>=1.26
+pandas>=2.2
+joblib>=1.4
+# Pickles were created with scikit-learn 1.7.1 -> pin it, or unpickling may break/give wrong results.
+scikit-learn==1.7.1
+xgboost>=2.1
+lightgbm>=4.3
+catboost>=1.2
+# only for scripts/recover_feature_selection.py
+imbalanced-learn>=0.12
+# only for tests / test_results generation
+httpx2>=2.0

@@ -1,0 +1,538 @@
+{
+  "generated": "2026-10-22T08:08:27",
+  "python": "3.12.3",
+  "health": {
+    "status": "ok",
+    "models_loaded": [
+      "CatBoost",
+      "LightGBM",
+      "RandomForest",
+      "Stacking",
+      "XGBoost"
+    ],
+    "models_failed": {},
+    "feature_mapping_status": "inferred"
+  },
+  "scans": {
+    "benign_sample.bin": {
+      "file": {
+        "name": "benign_sample.bin",
+        "size_bytes": 3072,
+        "sha256": "e56355570aafa4c0741e27642ed0e8f056deb17ae235fb04e1ba1606d767f3fc"
+      },
+      "extracted_features": {
+        "Machine": 332,
+        "DebugSize": 28,
+        "DebugRVA": 13008,
+        "MajorImageVersion": 0,
+        "MajorOSVersion": 6,
+        "ExportRVA": 0,
+        "ExportSize": 0,
+        "IatVRA": 12288,
+        "MajorLinkerVersion": 14,
+        "MinorLinkerVersion": 0,
+        "NumberOfSections": 4,
+        "SizeOfStackReserve": 1048576,
+        "DllCharacteristics": 33088,
+        "ResourceSize": 480,
+        "BitcoinAddresses": 0,
+        "has_crypto": 0,
+        "size_ratio": 0.0004577632353179595,
+        "section_ratio": 3.8146936276496624e-06,
+        "high_iat": 0,
+        "entropy_like": 0
+      },
+      "verdict": "Benign",
+      "votes": {
+        "malicious": 0,
+        "benign": 5,
+        "total": 5
+      },
+      "mean_p_malicious": 0.120273,
+      "models": [
+        {
+          "model": "RandomForest",
+          "available": true,
+          "label": "Benign",
+          "p_malicious": 0.21,
+          "p_benign": 0.79,
+          "training_metrics": {
+            "Accuracy": 0.9933584060174442,
+            "Precision": 0.991714233106242,
+            "Recall": 0.9929941002949852,
+            "F1 Score": 0.9923537540304007,
+            "ROC-AUC": 0.9990660242719519,
+            "CV Score": 0.9943050546076597
+          }
+        },
+        {
+          "model": "XGBoost",
+          "available": true,
+          "label": "Benign",
+          "p_malicious": 0.142809,
+          "p_benign": 0.857191,
+          "training_metrics": {
+            "Accuracy": 0.9932783868128351,
+            "Precision": 0.992619926199262,
+            "Recall": 0.9918879056047197,
+            "F1 Score": 0.9922537808926596,
+            "ROC-AUC": 0.999364546697379,
+            "CV Score": 0.9940655331252233
+          }
+        },
+        {
+          "model": "LightGBM",
+          "available": true,
+          "label": "Benign",
+          "p_malicious": 0.155177,
+          "p_benign": 0.844823,
+          "training_metrics": {
+            "Accuracy": 0.9930383291990078,
+            "Precision": 0.991889400921659,
+            "Recall": 0.9920722713864307,
+            "F1 Score": 0.9919808277260577,
+            "ROC-AUC": 0.9992091012938397,
+            "CV Score": 0.9942658571693584
+          }
+        },
+        {
+          "model": "CatBoost",
+          "available": true,
+          "label": "Benign",
+          "p_malicious": 0.057817,
+          "p_benign": 0.942183,
+          "training_metrics": {
+            "Accuracy": 0.9919980795390894,
+            "Precision": 0.9929629629629629,
+            "Recall": 0.9885693215339233,
+            "F1 Score": 0.9907612712490761,
+            "ROC-AUC": 0.9990680183313753,
+            "CV Score": 0.992767151853392
+          }
+        },
+        {
+          "model": "Stacking",
+          "available": true,
+          "label": "Benign",
+          "p_malicious": 0.035563,
+          "p_benign": 0.964437,
+          "training_metrics": {
+            "Accuracy": 0.9929583099943986,
+            "Precision": 0.9915254237288136,
+            "Recall": 0.9922566371681416,
+            "F1 Score": 0.9918908956874309,
+            "ROC-AUC": 0.9991505437187495,
+            "CV Score": 0.9940874341393503
+          }
+        }
+      ],
+      "model_features_used": {
+        "Machine": 332,
+        "DebugSize": 28,
+        "DebugRVA": 13008,
+        "MajorOSVersion": 6,
+        "MajorLinkerVersion": 14,
+        "DllCharacteristics": 33088,
+        "ResourceSize": 480
+      },
+      "feature_mapping": {
+        "status": "inferred",
+        "note": "The training script fits SelectFromModel but never saved it, and the CSV was not provided. The 7 columns were inferred from the trained trees' split thresholds (e.g. Machine splits at (0x14C+0x8664)/2 = 17368; DebugSize splits at multiples of 28; DllCharacteristics splits at bitmask values) plus SelectFromModel's order-preserving behaviour, then sanity-checked on real benign PE files. Run scripts/recover_feature_selection.py with the original CSV to replace this with a verified selection."
+      },
+      "decision_rule": "A model flags 'Benign' when P(benign) > 0.4 (same rule as the training evaluation); overall verdict is the majority of model votes.",
+      "analysis_ms": 134.5
+    },
+    "simulated_malicious_sample.bin": {
+      "file": {
+        "name": "simulated_malicious_sample.bin",
+        "size_bytes": 2560,
+        "sha256": "f376682c6fed728601825407b8b68982ad353052d6f98941f61261163cc26d8b"
+      },
+      "extracted_features": {
+        "Machine": 332,
+        "DebugSize": 0,
+        "DebugRVA": 0,
+        "MajorImageVersion": 0,
+        "MajorOSVersion": 4,
+        "ExportRVA": 0,
+        "ExportSize": 0,
+        "IatVRA": 12288,
+        "MajorLinkerVersion": 6,
+        "MinorLinkerVersion": 0,
+        "NumberOfSections": 3,
+        "SizeOfStackReserve": 1048576,
+        "DllCharacteristics": 0,
+        "ResourceSize": 18000,
+        "BitcoinAddresses": 0,
+        "has_crypto": 0,
+        "size_ratio": 0.01716612132442348,
+        "section_ratio": 2.8610202207372468e-06,
+        "high_iat": 0,
+        "entropy_like": 0
+      },
+      "verdict": "Malicious",
+      "votes": {
+        "malicious": 5,
+        "benign": 0,
+        "total": 5
+      },
+      "mean_p_malicious": 0.999083,
+      "models": [
+        {
+          "model": "RandomForest",
+          "available": true,
+          "label": "Malicious",
+          "p_malicious": 1.0,
+          "p_benign": 0.0,
+          "training_metrics": {
+            "Accuracy": 0.9933584060174442,
+            "Precision": 0.991714233106242,
+            "Recall": 0.9929941002949852,
+            "F1 Score": 0.9923537540304007,
+            "ROC-AUC": 0.9990660242719519,
+            "CV Score": 0.9943050546076597
+          }
+        },
+        {
+          "model": "XGBoost",
+          "available": true,
+          "label": "Malicious",
+          "p_malicious": 0.999309,
+          "p_benign": 0.000691,
+          "training_metrics": {
+            "Accuracy": 0.9932783868128351,
+            "Precision": 0.992619926199262,
+            "Recall": 0.9918879056047197,
+            "F1 Score": 0.9922537808926596,
+            "ROC-AUC": 0.999364546697379,
+            "CV Score": 0.9940655331252233
+          }
+        },
+        {
+          "model": "LightGBM",
+          "available": true,
+          "label": "Malicious",
+          "p_malicious": 0.999939,
+          "p_benign": 6.1e-05,
+          "training_metrics": {
+            "Accuracy": 0.9930383291990078,
+            "Precision": 0.991889400921659,
+            "Recall": 0.9920722713864307,
+            "F1 Score": 0.9919808277260577,
+            "ROC-AUC": 0.9992091012938397,
+            "CV Score": 0.9942658571693584
+          }
+        },
+        {
+          "model": "CatBoost",
+          "available": true,
+          "label": "Malicious",
+          "p_malicious": 0.996219,
+          "p_benign": 0.003781,
+          "training_metrics": {
+            "Accuracy": 0.9919980795390894,
+            "Precision": 0.9929629629629629,
+            "Recall": 0.9885693215339233,
+            "F1 Score": 0.9907612712490761,
+            "ROC-AUC": 0.9990680183313753,
+            "CV Score": 0.992767151853392
+          }
+        },
+        {
+          "model": "Stacking",
+          "available": true,
+          "label": "Malicious",
+          "p_malicious": 0.999949,
+          "p_benign": 5.1e-05,
+          "training_metrics": {
+            "Accuracy": 0.9929583099943986,
+            "Precision": 0.9915254237288136,
+            "Recall": 0.9922566371681416,
+            "F1 Score": 0.9918908956874309,
+            "ROC-AUC": 0.9991505437187495,
+            "CV Score": 0.9940874341393503
+          }
+        }
+      ],
+      "model_features_used": {
+        "Machine": 332,
+        "DebugSize": 0,
+        "DebugRVA": 0,
+        "MajorOSVersion": 4,
+        "MajorLinkerVersion": 6,
+        "DllCharacteristics": 0,
+        "ResourceSize": 18000
+      },
+      "feature_mapping": {
+        "status": "inferred",
+        "note": "The training script fits SelectFromModel but never saved it, and the CSV was not provided. The 7 columns were inferred from the trained trees' split thresholds (e.g. Machine splits at (0x14C+0x8664)/2 = 17368; DebugSize splits at multiples of 28; DllCharacteristics splits at bitmask values) plus SelectFromModel's order-preserving behaviour, then sanity-checked on real benign PE files. Run scripts/recover_feature_selection.py with the original CSV to replace this with a verified selection."
+      },
+      "decision_rule": "A model flags 'Benign' when P(benign) > 0.4 (same rule as the training evaluation); overall verdict is the majority of model votes.",
+      "analysis_ms": 112.6
+    }
+  },
+  "extra_real_benign_pe": [
+    {
+      "file": "cli-32.exe",
+      "verdict": "Benign",
+      "votes": {
+        "malicious": 0,
+        "benign": 5,
+        "total": 5
+      },
+      "p_malicious": {
+        "RandomForest": 0.21,
+        "XGBoost": 0.142809,
+        "LightGBM": 0.155177,
+        "CatBoost": 0.057817,
+        "Stacking": 0.035563
+      },
+      "features": {
+        "Machine": 332,
+        "DebugSize": 28,
+        "DebugRVA": 13008,
+        "MajorOSVersion": 6,
+        "MajorLinkerVersion": 14,
+        "DllCharacteristics": 33088,
+        "ResourceSize": 480
+      }
+    },
+    {
+      "file": "cli-64.exe",
+      "verdict": "Benign",
+      "votes": {
+        "malicious": 0,
+        "benign": 5,
+        "total": 5
+      },
+      "p_malicious": {
+        "RandomForest": 0.0,
+        "XGBoost": 0.000372,
+        "LightGBM": 2e-06,
+        "CatBoost": 0.00017,
+        "Stacking": 2e-05
+      },
+      "features": {
+        "Machine": 34404,
+        "DebugSize": 28,
+        "DebugRVA": 13584,
+        "MajorOSVersion": 6,
+        "MajorLinkerVersion": 14,
+        "DllCharacteristics": 33120,
+        "ResourceSize": 480
+      }
+    },
+    {
+      "file": "cli-arm64.exe",
+      "verdict": "Benign",
+      "votes": {
+        "malicious": 0,
+        "benign": 5,
+        "total": 5
+      },
+      "p_malicious": {
+        "RandomForest": 0.0,
+        "XGBoost": 0.000372,
+        "LightGBM": 2e-06,
+        "CatBoost": 0.00017,
+        "Stacking": 2e-05
+      },
+      "features": {
+        "Machine": 43620,
+        "DebugSize": 28,
+        "DebugRVA": 13488,
+        "MajorOSVersion": 6,
+        "MajorLinkerVersion": 14,
+        "DllCharacteristics": 33120,
+        "ResourceSize": 480
+      }
+    },
+    {
+      "file": "cli.exe",
+      "verdict": "Benign",
+      "votes": {
+        "malicious": 0,
+        "benign": 5,
+        "total": 5
+      },
+      "p_malicious": {
+        "RandomForest": 0.21,
+        "XGBoost": 0.142809,
+        "LightGBM": 0.155177,
+        "CatBoost": 0.057817,
+        "Stacking": 0.035563
+      },
+      "features": {
+        "Machine": 332,
+        "DebugSize": 28,
+        "DebugRVA": 13008,
+        "MajorOSVersion": 6,
+        "MajorLinkerVersion": 14,
+        "DllCharacteristics": 33088,
+        "ResourceSize": 480
+      }
+    },
+    {
+      "file": "gui-32.exe",
+      "verdict": "Benign",
+      "votes": {
+        "malicious": 0,
+        "benign": 5,
+        "total": 5
+      },
+      "p_malicious": {
+        "RandomForest": 0.21,
+        "XGBoost": 0.142809,
+        "LightGBM": 0.155177,
+        "CatBoost": 0.057817,
+        "Stacking": 0.035563
+      },
+      "features": {
+        "Machine": 332,
+        "DebugSize": 28,
+        "DebugRVA": 13008,
+        "MajorOSVersion": 6,
+        "MajorLinkerVersion": 14,
+        "DllCharacteristics": 33088,
+        "ResourceSize": 480
+      }
+    },
+    {
+      "file": "gui-64.exe",
+      "verdict": "Benign",
+      "votes": {
+        "malicious": 0,
+        "benign": 5,
+        "total": 5
+      },
+      "p_malicious": {
+        "RandomForest": 0.0,
+        "XGBoost": 0.000372,
+        "LightGBM": 2e-06,
+        "CatBoost": 0.00017,
+        "Stacking": 2e-05
+      },
+      "features": {
+        "Machine": 34404,
+        "DebugSize": 28,
+        "DebugRVA": 13584,
+        "MajorOSVersion": 6,
+        "MajorLinkerVersion": 14,
+        "DllCharacteristics": 33120,
+        "ResourceSize": 480
+      }
+    },
+    {
+      "file": "gui-arm64.exe",
+      "verdict": "Benign",
+      "votes": {
+        "malicious": 0,
+        "benign": 5,
+        "total": 5
+      },
+      "p_malicious": {
+        "RandomForest": 0.0,
+        "XGBoost": 0.000372,
+        "LightGBM": 2e-06,
+        "CatBoost": 0.00017,
+        "Stacking": 2e-05
+      },
+      "features": {
+        "Machine": 43620,
+        "DebugSize": 28,
+        "DebugRVA": 13488,
+        "MajorOSVersion": 6,
+        "MajorLinkerVersion": 14,
+        "DllCharacteristics": 33120,
+        "ResourceSize": 480
+      }
+    },
+    {
+      "file": "gui.exe",
+      "verdict": "Benign",
+      "votes": {
+        "malicious": 0,
+        "benign": 5,
+        "total": 5
+      },
+      "p_malicious": {
+        "RandomForest": 0.21,
+        "XGBoost": 0.142809,
+        "LightGBM": 0.155177,
+        "CatBoost": 0.057817,
+        "Stacking": 0.035563
+      },
+      "features": {
+        "Machine": 332,
+        "DebugSize": 28,
+        "DebugRVA": 13008,
+        "MajorOSVersion": 6,
+        "MajorLinkerVersion": 14,
+        "DllCharacteristics": 33088,
+        "ResourceSize": 480
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "all 5 models loaded",
+      "pass": true,
+      "detail": "['CatBoost', 'LightGBM', 'RandomForest', 'Stacking', 'XGBoost']"
+    },
+    {
+      "name": "upload benign_sample.bin -> HTTP 200",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "benign_sample.bin verdict is Benign",
+      "pass": true,
+      "detail": "verdict=Benign votes={'malicious': 0, 'benign': 5, 'total': 5}"
+    },
+    {
+      "name": "upload simulated_malicious_sample.bin -> HTTP 200",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "simulated_malicious_sample.bin verdict is Malicious",
+      "pass": true,
+      "detail": "verdict=Malicious votes={'malicious': 5, 'benign': 0, 'total': 5}"
+    },
+    {
+      "name": "non-PE rejected with 422 (no fake prediction)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "empty file -> 400",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "missing file field -> 400 JSON error",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "path traversal on sample endpoint blocked",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "hostile filename sanitised",
+      "pass": true,
+      "detail": "x.exe"
+    },
+    {
+      "name": "security headers present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "API docs surface disabled",
+      "pass": true,
+      "detail": ""
+    }
+  ]
+}

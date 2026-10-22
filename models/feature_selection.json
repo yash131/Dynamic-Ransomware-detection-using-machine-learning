@@ -1,0 +1,7 @@
+{
+  "status": "inferred",
+  "label_semantics": "Class 1 = Benign, class 0 = Malicious (target column is named 'Benign' in the training script)",
+  "decision_threshold_benign": 0.4,
+  "selected_features": ["Machine", "DebugSize", "DebugRVA", "MajorOSVersion", "MajorLinkerVersion", "DllCharacteristics", "ResourceSize"],
+  "how_determined": "The training script fits SelectFromModel but never saved it, and the CSV was not provided. The 7 columns were inferred from the trained trees' split thresholds (e.g. Machine splits at (0x14C+0x8664)/2 = 17368; DebugSize splits at multiples of 28; DllCharacteristics splits at bitmask values) plus SelectFromModel's order-preserving behaviour, then sanity-checked on real benign PE files. Run scripts/recover_feature_selection.py with the original CSV to replace this with a verified selection."
+}
